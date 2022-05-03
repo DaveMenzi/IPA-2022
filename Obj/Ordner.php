@@ -1,8 +1,8 @@
 <?php
 
+//Bindet die Dateien ein falls sie noch nicht eingebunden wurden.
 require_once "Element.php";
 require_once "Datei.php";
-//Prüft hier ob die gewünschte Datei bereits eingebunden wurde.
 
 //Vererbung an die Klasse Element (extends)
 // + Erstellen der Klasse Ordner
@@ -58,9 +58,9 @@ class Ordner extends Element {
                 $file->size();
                 //Speichert die Werte von $file in das Array $elms[]
                 $elms[] = $file;
-                //
+                //Werte von $file werden der statischem Array hinzugefügt
                 Index::$allFiles[] = $file;
-                //OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOooooo
+                //Werte von $file werden der statischem Array hinzugefügt
                 Index::$allElements[] = $file;
                 }
                 else

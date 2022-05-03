@@ -8,7 +8,7 @@
     <!--Verbindung zu chartjs.com für das Balkendiagramm-->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <!--Verbindung zur externen CSS Datei-->
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="Css/style.css">
 </head>
 
 <body>

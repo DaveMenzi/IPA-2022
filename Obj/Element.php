@@ -12,6 +12,7 @@ class Element {
         $this->filetype = $filetype;
     }
     //Funktion gibt den Wert von $path entsprechend zurück.
+    //
     public function getPath() {
         return $this->path;
     }

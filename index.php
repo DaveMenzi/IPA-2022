@@ -1,45 +1,41 @@
 <?php 
 
+//Bindet die Dateien ein falls sie noch nicht eingebunden wurden.
 require_once "Obj/Ordner.php";
 require_once "Obj/Datei.php";
 require_once "Obj/Element.php";
-//Prüft hier ob die gewünschte Datei bereits eingebunden wurde.
 
 class Index{
 
-    //Inizialisierung der statischen Variablen $allFliles 
+    //Definierung der statischen Variablen $allFliles, $allElements
     public static $allFiles;
     public static $allElements;
 
     //PHP ruft diese Funktion automatisch auf, wenn Sie ein Objekt aus einer Klasse erstellen.
-    public function __construct(){
+    // Inizialisiert die Applikation und führt alle Funktionen aus die benötigt werden.
+    public function __construct() {
 
-        //Prüft mit der Funktion checkpath ob es sich hier um ein Verzeichnis handelt.  
+        //Prüft ob der get Parameter gesetzt ist.
         if (isset($_GET['path'])) {
             //Eingabe von der URL wird in der Variablen $input gespeichert
             $input = $_GET['path'];
                 
-                //Prüft ob es sich um ein directory handelt mit der Funktion checkpath()
-                if ($this->checkpath($input)) {
-                    $ordner = new Ordner($input, "folder");
-                    //Funktion displayOutput wird hier aufgerufen
-                    $this->displayOutput($ordner);
-                    }
-                    else
-                    {
-                    //Falls die Eingabe kein gültiger Pfad ist wird diese Fehlermeldung ausgegeben.
-                    echo "Path does not exist";
-                    return;
-                    }
-            //Falls der Pfad noch nicht eingegeben/gesetzt wurde erfolgt diese Ausgabe
+            //Prüft mit der Funktion checkpath ob es sich hier um ein Verzeichnis handelt.
+            if ($this->checkpath($input)) {
+                $ordner = new Ordner($input, "folder");
+                $this->displayOutput($ordner);
+            } else {
+                //Falls die Eingabe kein gültiger Pfad ist wird diese Fehlermeldung ausgegeben.
+                echo "Path does not exist";
+                return;
             }
-            else
-            {
-                echo "<h3>PHP File Analyzer</h3><br>";
-                echo "Path not set<br>";
-                echo "Type <strong> ?=yourpath\ </strong> to set a path<br>";
-                echo "Type <strong> &export=yes </strong> at the end for export in a .txt file";
-            }
+        //Falls der Pfad noch nicht eingegeben/gesetzt wurde erfolgt diese Ausgabe
+        } else {
+            echo "<h3>PHP File Analyzer</h3><br>";
+            echo "Path not set<br>";
+            echo "Type <strong> ?=yourpath\ </strong> to set a path<br>";
+            echo "Type <strong> &export=yes </strong> at the end for export in a .txt file";
+        }
     }
 
 
@@ -48,19 +44,13 @@ class Index{
         return is_dir($path);
     }
 
-    /*
-    public function cmp($a, $b) {
-        return $a->size > $b->size;
-    }*/
-
     public function displayOutput($ordner) {
-        //indexHTML.php wird mit include hier eingebunden
         include "indexHTML.php";
         //Werte von $ordner die mit der Funktion displaySizes() ausgeführt wurden werden in $elms gespeichert.
         $elms = $ordner->displaySizes();
         //foreach Schleife
         foreach ($elms as $elm) {
-            //$elms funtkion mit size()OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
+            //$elm scannt rekursiv alle Grössen der Dateien und Ordner
             $elm->size();
         }
 
@@ -81,9 +71,12 @@ class Index{
         }
 
         //Sortiert ein Array nach Werten mittels einer  Vergleichsfunktion
-        //OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOO
-        usort(Index::$allFiles, function($a, $b) {return $a->size < $b->size;});
-        //Zeigt di2 10 grössten Dateien an
+        usort(Index::$allFiles, 
+            function($a, $b) {
+                return $a->size < $b->size;
+            }
+        );
+        //Hohlt die 10 Grössten Dateien
         $largestFiles = array_slice(Index::$allFiles, 0, 10);
         
         //indexHTML.php wird mit include hier eingebunden
@@ -91,6 +84,6 @@ class Index{
     }
 }
 
-//Erstellt ein Objekt der Klasse Index OOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOOoooooo
+//Klass Index wird inizialisiert 
 $index = new Index();
 ?>
