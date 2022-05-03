@@ -65,6 +65,7 @@ class Ordner extends Element {
                 }
                 else
                 {
+                    
                     $folder = new Ordner($path . "/" . $e, "folder");
                     $elms[] = $folder; 
                 }
