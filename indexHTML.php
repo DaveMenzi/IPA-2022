@@ -12,57 +12,30 @@
 </head>
 
 <body>
-<!--Formular für die Suchfunktion-->
-<form action="indexHTML.php" method="POST">
-<!--input feld für die Eingabe der zu suchenden Datei-->    
-<input type="text" name="suchfeld" placeholder="Nach einer Datei suchen" /><br />
-<!--Submit Absenden--> 
-<input type="Submit" value="Suchen"/>
-</form>
-<?php 
- 
- //Prüft ob im Feld "suchfeld" etwas eingeben wurde. 
- //Falls ja gehts weiter in die if Schleife
- if(isset($_POST["suchfeld"])) {
+    <!--Formular für die Suchfunktion-->
+    <form action="index.php" method="GET">
+    <input type="hidden" name="path" value="<?php echo $_GET['path']; ?>">
+    
+    <!--input feld für die Eingabe der zu suchenden Datei-->
+    <!-- get request mit suchfeld -->
+    <input type="text" name="suchfeld" placeholder="Nach einer Datei suchen" 
+    value="<?php if (isset($_GET['suchfeld'])) {echo $_GET['suchfeld'];} ?>"/><br />
 
-    //Werte von der Eingabe im "suchfeld" werden in $searchfile übergeben
-    $searchfile = $_POST["suchfeld"];
-        //Prüft ob es sich um eine Datei handelt.
-        if(is_file($searchfile)){
-        
-        //Prüft ob die Datei existiert.
-        if (file_exists($searchfile)) {
-         echo "Datei gefunden <br>";
-         //filesize hohlt die Grösse der Datei die anschliessend in die Variable $size gespeichert wird.
-         $size = filesize($searchfile);
-         //Umrechnung in Kilobyte, 0 steht Ziffern nach dem Komma
-         $fileSize = round($size / 1024,0);
-         //Ausgabe
-         echo $searchfile . ': ' . $fileSize . ' KB';
-        } 
-        else 
-        {
-        //Falls die Datei nicht existiert wird diese Ausgabe erfolgen.
-        echo "Die Datei $searchfile existiert nicht";
-        }
-    }
-    else 
-    {
-        //Falls es sich nicht um eine Datei handelt erfolgt diese Ausgabe
-        echo "Dies ist keine Datei.";
-    }
-}
- ?>
- 
-<div>
-<!-- Canvas Tag eginet sich für die Darstellung von Grafiken und Zeichnungen -->
-<canvas id="barChartFiles"></canvas>
-</div>
+    <!--Submit Absenden--> 
+    <input type="Submit" value="Suchen"/>
+    </form>
+  
+    <!-- Leeres div als Platz deklariert-->
+    <div id="searchResult"></div>
 
-<table border=3>
-  <tr>
-    <!--Text für die Tabelle-->
-    <th class=tableheader1>Ordner / Datei Name</th>
-    <th class=tableheader2>Grösse in KB</th>
-  </tr>
-</table>
+    <!-- Canvas Tag eignet sich für die Darstellung von Grafiken und Zeichnungen -->
+    <canvas id="barChartFiles"></canvas>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.4"></script>
+    
+    <table border=3>
+      <tr>
+        <!--Text für die Tabelle-->
+        <th class=tableheader1>Ordner / Datei Name</th>
+        <th class=tableheader2>Grösse in KB</th>
+      </tr>
+    </table>
